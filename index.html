@@ -2,1096 +2,440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#090909">
-  <meta name="description" content="ORVIX MAG — Discover products, creators and independent stores worldwide.">
-  <title>ORVIX MAG — Global Marketplace</title>
-
-  <style>
-    :root {
-      --bg: #090909;
-      --panel: #121212;
-      --panel2: #191919;
-      --text: #f8f8f8;
-      --muted: #a4a4a4;
-      --line: #292929;
-      --accent: #c8ff38;
-      --danger: #ff6b6b;
-      --radius: 18px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, Arial, Helvetica, sans-serif;
-    }
-    button, input, select, textarea { font: inherit; }
-    button { cursor: pointer; }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; width: 100%; object-fit: cover; }
-    .container { width: min(1200px, 92%); margin: auto; }
-    .muted { color: var(--muted); }
-    .accent { color: var(--accent); }
-    .small { font-size: 12px; }
-    .section { padding: 42px 0; }
-    .section-head {
-      display: flex; justify-content: space-between;
-      align-items: end; gap: 16px; margin-bottom: 22px;
-    }
-    h1, h2, h3, p { margin-top: 0; }
-    h2 { margin-bottom: 8px; font-size: clamp(23px, 3vw, 34px); }
-    .btn {
-      border: 1px solid var(--line); background: var(--panel2);
-      color: var(--text); border-radius: 999px;
-      padding: 11px 16px; transition: .2s;
-    }
-    .btn:hover { border-color: var(--accent); }
-    .btn.primary {
-      background: var(--accent); color: #111; border-color: var(--accent);
-      font-weight: 800;
-    }
-    .btn:disabled { opacity: .4; cursor: not-allowed; }
-    .field {
-      width: 100%; min-width: 0; background: #0d0d0d;
-      color: white; border: 1px solid var(--line);
-      border-radius: 12px; padding: 12px 14px; outline: none;
-    }
-    .field:focus { border-color: var(--accent); }
-    label { display: block; margin-bottom: 7px; font-size: 13px; color: var(--muted); }
-    .stack { display: grid; gap: 12px; }
-    .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .pill {
-      display: inline-flex; padding: 6px 10px; border-radius: 999px;
-      background: #242424; color: var(--accent); font-size: 11px;
-      font-weight: 800; letter-spacing: .5px;
-    }
-
-    /* Header */
-    .announcement {
-      text-align: center; padding: 9px 12px; background: var(--accent);
-      color: #111; font-size: 11px; font-weight: 900; letter-spacing: 1px;
-    }
-    header {
-      position: sticky; top: 0; z-index: 20;
-      background: rgba(9,9,9,.94); backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--line);
-    }
-    .navbar {
-      min-height: 76px; display: flex; align-items: center;
-      justify-content: space-between; gap: 20px;
-    }
-    .brand { font-size: 29px; font-weight: 1000; letter-spacing: -2px; }
-    .brand span { color: var(--accent); }
-    .nav-links { display: flex; align-items: center; gap: 19px; font-size: 13px; color: #ddd; }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-actions { display: flex; align-items: center; gap: 8px; }
-    .cart-count {
-      display: inline-grid; place-items: center; min-width: 19px; height: 19px;
-      background: var(--accent); color: #111; border-radius: 50%;
-      font-size: 11px; font-weight: 900; margin-left: 4px;
-    }
-
-    /* Hero */
-    .hero {
-      padding: 65px 0 50px;
-      background: radial-gradient(ellipse at 80% 20%, #283114 0, transparent 38%),
-                  linear-gradient(140deg, #101010, #080808 65%);
-      border-bottom: 1px solid var(--line);
-    }
-    .hero-grid {
-      display: grid; grid-template-columns: 1.1fr .9fr;
-      gap: 35px; align-items: center;
-    }
-    .hero h1 {
-      font-size: clamp(42px, 7vw, 82px); line-height: .99;
-      letter-spacing: -4px; margin: 18px 0;
-    }
-    .hero h1 span { color: var(--accent); }
-    .hero p { color: #bcbcbc; line-height: 1.8; max-width: 560px; }
-    .hero-art {
-      min-height: 320px; border: 1px solid #333; border-radius: 28px;
-      overflow: hidden; position: relative;
-      background: linear-gradient(135deg, #222, #111 45%, #35451b);
-      display: grid; place-items: center;
-    }
-    .hero-art::before, .hero-art::after {
-      content: ""; position: absolute; border: 1px solid #ffffff28;
-      width: 230px; height: 230px; border-radius: 50%;
-    }
-    .hero-art::after { width: 310px; height: 310px; }
-    .hero-logo {
-      position: relative; z-index: 1; text-align: center;
-      font-size: clamp(42px, 6vw, 74px); font-weight: 1000; letter-spacing: -5px;
-    }
-    .hero-logo span { color: var(--accent); }
-    .hero-logo small { display: block; font-size: 10px; letter-spacing: 3px; margin-top: 10px; }
-    .hero-stats { display: flex; gap: 28px; margin-top: 28px; flex-wrap: wrap; }
-    .hero-stats strong { display: block; font-size: 22px; }
-    .hero-stats span { color: var(--muted); font-size: 12px; }
-
-    /* Categories and cards */
-    .category-list { display: flex; gap: 9px; flex-wrap: wrap; }
-    .category-btn {
-      border: 1px solid var(--line); background: var(--panel);
-      color: #ddd; border-radius: 999px; padding: 10px 15px;
-    }
-    .category-btn.active, .category-btn:hover {
-      background: var(--accent); color: #111; border-color: var(--accent);
-    }
-    .toolbar {
-      display: grid; grid-template-columns: 1fr 180px 180px;
-      gap: 10px; margin-bottom: 20px;
-    }
-    .product-grid {
-      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 17px;
-    }
-    .product-card {
-      min-width: 0; background: var(--panel); border: 1px solid var(--line);
-      border-radius: var(--radius); overflow: hidden; transition: transform .2s, border-color .2s;
-    }
-    .product-card:hover { transform: translateY(-4px); border-color: #555; }
-    .product-image { position: relative; aspect-ratio: 1 / 1; background: #202020; overflow: hidden; }
-    .product-image img { height: 100%; transition: transform .35s; }
-    .product-card:hover .product-image img { transform: scale(1.04); }
-    .product-tag { position: absolute; top: 10px; left: 10px; }
-    .heart-btn {
-      position: absolute; top: 9px; right: 9px; border: 0;
-      border-radius: 50%; width: 35px; height: 35px;
-      background: #000b; color: white; font-size: 18px;
-    }
-    .heart-btn.saved { color: var(--accent); }
-    .product-info { padding: 14px; }
-    .product-info h3 { font-size: 15px; margin-bottom: 8px; line-height: 1.4; }
-    .product-meta { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; }
-    .price { font-size: 18px; font-weight: 900; margin: 13px 0; }
-    .card-buttons { display: flex; gap: 7px; }
-    .card-buttons .btn { flex: 1; padding: 9px 7px; font-size: 12px; }
-
-    /* Feature panels */
-    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-    .feature-card {
-      background: linear-gradient(145deg, #191919, #101010);
-      border: 1px solid var(--line); border-radius: var(--radius); padding: 23px;
-    }
-    .feature-icon { font-size: 30px; margin-bottom: 15px; }
-    .feature-card h3 { margin-bottom: 8px; }
-    .feature-card p { color: var(--muted); font-size: 13px; line-height: 1.7; }
-
-    .assistant-panel {
-      border: 1px solid #414c27; border-radius: 24px; padding: 25px;
-      background: radial-gradient(ellipse at 100% 0%, #293717 0, transparent 50%), #111;
-    }
-    .assistant-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 24px; align-items: start; }
-    .chat-output {
-      background: #090909; border: 1px solid var(--line); border-radius: 15px;
-      min-height: 140px; padding: 16px; color: #ddd; line-height: 1.7;
-      white-space: pre-wrap; font-size: 14px;
-    }
-
-    /* Shorts */
-    .shorts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-    .short-card {
-      position: relative; overflow: hidden; border-radius: 20px;
-      min-height: 360px; background: #171717; border: 1px solid var(--line);
-    }
-    .short-card img { position: absolute; height: 100%; inset: 0; }
-    .short-overlay {
-      position: absolute; inset: 0; padding: 18px; display: flex;
-      flex-direction: column; justify-content: end;
-      background: linear-gradient(transparent 30%, #000d);
-    }
-    .short-overlay p { font-size: 13px; color: #ddd; }
-    .short-overlay h3 { margin-bottom: 7px; }
-
-    /* Comparison and wishlist */
-    .compare-list, .wishlist-list, .cart-list, .store-list { display: grid; gap: 10px; }
-    .mini-item {
-      display: flex; align-items: center; gap: 13px; padding: 12px;
-      border: 1px solid var(--line); background: var(--panel);
-      border-radius: 14px;
-    }
-    .mini-item img { width: 65px; height: 65px; border-radius: 10px; }
-    .mini-item .grow { flex: 1; min-width: 0; }
-    .mini-item h3 { font-size: 14px; margin-bottom: 6px; }
-    .compare-table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 480px; }
-    th, td { padding: 13px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13px; }
-    th { color: var(--accent); }
-
-    /* Store and footer */
-    .store-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 22px; }
-    footer { border-top: 1px solid var(--line); padding: 40px 0 25px; margin-top: 30px; }
-    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 25px; }
-    footer a { color: #bbb; display: block; margin: 10px 0; font-size: 13px; }
-    footer a:hover { color: var(--accent); }
-    .copyright { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 24px; color: var(--muted); font-size: 12px; }
-
-    /* Cart drawer and notifications */
-    .drawer-backdrop {
-      position: fixed; inset: 0; z-index: 40; background: #000b;
-      opacity: 0; pointer-events: none; transition: .2s;
-    }
-    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
-    .drawer {
-      position: fixed; z-index: 41; right: 0; top: 0; bottom: 0;
-      width: min(440px, 100%); background: #101010; border-left: 1px solid var(--line);
-      padding: 22px; transform: translateX(105%); transition: .25s;
-      display: flex; flex-direction: column; gap: 15px;
-    }
-    .drawer.open { transform: translateX(0); }
-    .drawer-head { display: flex; justify-content: space-between; align-items: center; }
-    .drawer-body { overflow-y: auto; flex: 1; }
-    .toast {
-      position: fixed; z-index: 60; bottom: 22px; left: 50%;
-      transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
-      background: var(--accent); color: #111; border-radius: 999px;
-      padding: 13px 20px; font-weight: 800; font-size: 13px; transition: .2s;
-      max-width: 90%; text-align: center;
-    }
-    .toast.show { opacity: 1; transform: translate(-50%, 0); }
-    .empty { color: var(--muted); text-align: center; padding: 25px 10px; }
-    .hidden { display: none !important; }
-
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .hero-grid, .assistant-grid { grid-template-columns: 1fr; }
-      .hero-art { min-height: 240px; }
-    }
-    @media (max-width: 620px) {
-      .navbar { min-height: 65px; }
-      .brand { font-size: 25px; }
-      .nav-actions .btn { padding: 9px 11px; font-size: 12px; }
-      .hero { padding: 43px 0; }
-      .hero h1 { letter-spacing: -2px; }
-      .hero-stats { gap: 18px; }
-      .toolbar { grid-template-columns: 1fr 1fr; }
-      .toolbar input { grid-column: 1 / -1; }
-      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .product-info { padding: 10px; }
-      .product-info h3 { font-size: 13px; }
-      .price { font-size: 16px; }
-      .card-buttons { flex-direction: column; }
-      .feature-grid, .shorts-grid, .store-layout, .footer-grid { grid-template-columns: 1fr; }
-      .short-card { min-height: 330px; }
-      .section { padding: 30px 0; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080a08">
+<meta name="description" content="ORVIX MAG — Shop, sell, compare and discover worldwide.">
+<title>ORVIX MAG | Global Marketplace</title>
+<style>
+:root{
+ --bg:#080a08;--surface:#111411;--surface2:#191d19;--line:#303630;
+ --text:#f6f8f3;--muted:#a5afa2;--lime:#c9ff46;--red:#ff7474;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,Helvetica,sans-serif}
+button,input,select,textarea{font:inherit}
+button,a{cursor:pointer}
+a{color:inherit;text-decoration:none}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.container{width:min(1250px,94%);margin:auto}
+.announcement{padding:9px;text-align:center;background:var(--lime);color:#111;font-weight:900;font-size:11px;letter-spacing:.7px}
+header{position:sticky;top:0;z-index:30;background:#090b09ed;backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:73px}
+.logo{font-size:25px;font-weight:950;letter-spacing:-1.5px;white-space:nowrap}
+.logo span{color:var(--lime)}
+.links{display:flex;gap:17px;align-items:center;color:#d3d9d0;font-size:12px}
+.links a:hover{color:var(--lime)}
+.actions{display:flex;gap:7px;align-items:center}
+.btn{border:1px solid var(--line);border-radius:9px;background:var(--surface2);color:var(--text);padding:11px 14px;font-weight:700;font-size:12px}
+.btn:hover{border-color:var(--lime)}
+.btn.primary{background:var(--lime);color:#10130b;border-color:var(--lime)}
+.btn.danger{color:var(--red)}
+.count{display:inline-block;border-radius:30px;background:var(--lime);color:#111;font-size:10px;padding:3px 5px;margin-left:3px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;padding:65px 0 30px}
+.kicker{color:var(--lime);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:900}
+h1{font-size:clamp(42px,6vw,75px);line-height:.98;letter-spacing:-3px;margin:18px 0}
+h1 span{color:var(--lime)}
+p{line-height:1.7}
+.muted{color:var(--muted)}
+.hero p{max-width:560px;color:var(--muted);font-size:14px}
+.heroBtns{display:flex;flex-wrap:wrap;gap:9px;margin:24px 0}
+.heroart{min-height:330px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:radial-gradient(ellipse at 72% 28%,#46552a,#182017 38%,#0d100d 75%)}
+.heroart:before{content:"";position:absolute;width:280px;height:280px;border:1px solid #c9ff4666;border-radius:50%;right:-15px;top:20px;box-shadow:0 0 0 28px #c9ff460b,0 0 0 57px #c9ff4608}
+.heroart:after{content:"O";position:absolute;right:55px;top:5px;font-size:260px;font-weight:950;color:var(--lime);line-height:1}
+.heroartText{position:absolute;bottom:24px;left:23px;z-index:2}
+.heroartText b{font-size:20px}
+.heroartText div{margin-top:7px;color:#d5ddcb;font-size:11px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px auto 45px}
+.stat{padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.stat b{display:block;font-size:19px}
+.stat span{display:block;color:var(--muted);font-size:10px;margin-top:6px}
+section{scroll-margin-top:90px}
+.section{padding:22px 0 40px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:20px}
+.sectionhead h2{font-size:28px;letter-spacing:-1px;margin:7px 0}
+.sectionhead p{color:var(--muted);font-size:12px;margin:0}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px}
+.fieldInput,select,textarea{background:#101310;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:12px;min-width:0;width:100%}
+.search{flex:1;min-width:190px}
+.toolbar select{width:auto;min-width:130px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:19px}
+.chip{background:var(--surface);border:1px solid var(--line);color:var(--text);padding:9px 13px;border-radius:30px;font-size:11px}
+.chip.active,.chip:hover{background:var(--lime);color:#10130b;border-color:var(--lime)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.product{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:var(--surface);min-width:0}
+.product:hover{border-color:#66774c}
+.productImg{height:185px;background:#202520;position:relative;overflow:hidden;cursor:pointer}
+.productImg img{width:100%;height:100%;object-fit:cover;display:block}
+.tag{position:absolute;top:10px;left:10px;background:var(--lime);color:#111;border-radius:5px;padding:5px 7px;font-size:9px;font-weight:900}
+.heart{position:absolute;right:9px;top:9px;border:1px solid #fff4;background:#101010c9;color:white;border-radius:50%;width:32px;height:32px;font-size:17px}
+.heart.saved{color:var(--lime)}
+.productBody{padding:13px}
+.category{font-size:9px;color:var(--lime);letter-spacing:1px;text-transform:uppercase}
+.product h3{font-size:14px;line-height:1.4;margin:8px 0}
+.rating{font-size:11px;color:#f0e7a5}
+.price{font-size:19px;font-weight:900;margin:11px 0 5px}
+.smallnote{font-size:10px;color:var(--muted);line-height:1.6}
+.productBtns{display:flex;gap:6px;margin-top:11px}
+.productBtns button{flex:1;padding:9px 6px;font-size:10px}
+.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:12px;padding:35px;text-align:center;color:var(--muted)}
+.panel{border:1px solid var(--line);background:var(--surface);border-radius:15px;padding:19px;margin-bottom:14px}
+.columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.feature{padding:19px;border:1px solid var(--line);background:var(--surface);border-radius:14px}
+.feature .emoji{font-size:25px}
+.feature h3{margin:13px 0 7px;font-size:15px}
+.feature p{margin:0;color:var(--muted);font-size:12px}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.formField label{display:block;font-size:11px;color:var(--muted);margin-bottom:7px}
+.full{grid-column:1/-1}
+.status{display:inline-block;padding:6px 9px;border:1px solid #746337;color:#f3d886;border-radius:30px;font-size:10px}
+.airow{display:flex;gap:8px;margin-top:14px}
+.airow input{flex:1}
+.result{display:none;margin-top:13px;padding:14px;background:#090c09;border:1px solid var(--line);border-radius:10px;white-space:pre-wrap;line-height:1.8}
+.tableWrap{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}
+th{color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:11px;margin-top:20px}
+.footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.modalBack{display:none;position:fixed;inset:0;z-index:80;background:#000c;align-items:center;justify-content:center;padding:15px}
+.modalBack.open{display:flex}
+.modal{background:#111411;border:1px solid var(--line);border-radius:16px;width:min(650px,100%);max-height:88vh;overflow:auto;padding:20px}
+.modalHead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
+.modalHead h2{font-size:21px;margin:0}
+.cartLine{display:grid;grid-template-columns:1fr auto;gap:10px;border-bottom:1px solid var(--line);padding:12px 0}
+.cartLine small{display:block;color:var(--muted);margin:6px 0}
+.cartTotal{display:flex;justify-content:space-between;padding:17px 0;font-size:18px;font-weight:900}
+.close{background:var(--surface2);border:1px solid var(--line);color:white;padding:8px 11px;border-radius:8px}
+.comparebar{display:none;position:sticky;bottom:0;background:#151915;border-top:1px solid var(--line);z-index:15;padding:12px}
+.comparebar .container{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.toast{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;background:var(--lime);color:#111;font-weight:800;padding:12px 17px;border-radius:10px;max-width:92%}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{display:none}.hero{grid-template-columns:1fr}.heroart{min-height:260px}}
+@media(max-width:620px){.container{width:94%}.nav{min-height:62px}.logo{font-size:21px}.hero{padding-top:38px}.heroart{min-height:225px}.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.productImg{height:140px}.productBody{padding:10px}.product h3{font-size:12px}.price{font-size:16px}.productBtns{flex-direction:column}.features,.columns{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.sectionhead h2{font-size:23px}.toolbar select{flex:1}.airow{flex-direction:column}}
+</style>
 </head>
-
 <body>
-  <div class="announcement">DISCOVER MORE. SHOP SMARTER. THINK GLOBAL.</div>
-
-  <header>
-    <div class="container navbar">
-      <a class="brand" href="#home" aria-label="ORVIX home">ORVIX<span>®</span></a>
-
-      <nav class="nav-links" aria-label="Main navigation">
-        <a href="#shop">Shop</a>
-        <a href="#shorts">Shorts</a>
-        <a href="#guide">AI Guide</a>
-        <a href="#compare">Compare</a>
-        <a href="#seller">Sell on ORVIX</a>
-      </nav>
-
-      <div class="nav-actions">
-        <button class="btn" onclick="showWishlist()">♡ <span id="wishCount">0</span></button>
-        <button class="btn" onclick="toggleCart(true)">Cart <span class="cart-count" id="cartCount">0</span></button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero" id="home">
-      <div class="container hero-grid">
-        <div>
-          <span class="pill">THE NEXT-GENERATION MARKETPLACE</span>
-          <h1>Find your next <span>favorite.</span></h1>
-          <p>
-            Discover products, explore independent stores, compare your options
-            and shop through creator-style product stories — all in one place.
-          </p>
-          <div class="row">
-            <a class="btn primary" href="#shop">Explore marketplace ↗</a>
-            <a class="btn" href="#seller">Create your store</a>
-          </div>
-          <div class="hero-stats">
-            <div><strong>01</strong><span>One marketplace</span></div>
-            <div><strong>∞</strong><span>Possibilities</span></div>
-            <div><strong>Global</strong><span>Vision</span></div>
-          </div>
-        </div>
-
-        <div class="hero-art">
-          <div class="hero-logo">ORVIX<span>MAG</span><small>MADE FOR WHAT'S NEXT</small></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="shop">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="pill">DISCOVER</span>
-            <h2>Explore the marketplace</h2>
-            <p class="muted">Browse our sample catalog and find your next pick.</p>
-          </div>
-          <span class="muted small" id="resultCount">Products</span>
-        </div>
-
-        <div class="category-list" id="categories"></div>
-
-        <div class="toolbar" style="margin-top:18px">
-          <input class="field" id="searchInput" placeholder="Search products or categories..." aria-label="Search products">
-          <select class="field" id="sortSelect" aria-label="Sort products">
-            <option value="featured">Featured</option>
-            <option value="low">Price: low to high</option>
-            <option value="high">Price: high to low</option>
-            <option value="rating">Top rated</option>
-            <option value="name">Name: A–Z</option>
-          </select>
-          <select class="field" id="currencySelect" aria-label="Display currency">
-            <option value="USD">USD $</option>
-            <option value="PKR">PKR Rs</option>
-            <option value="GBP">GBP £</option>
-            <option value="EUR">EUR €</option>
-          </select>
-        </div>
-
-        <div class="product-grid" id="productGrid"></div>
-        <p class="muted small" style="margin-top:18px">
-          Demo catalog: sample products, images and illustrative prices. Not live supplier inventory.
-        </p>
-      </div>
-    </section>
-
-    <section class="section" id="guide">
-      <div class="container">
-        <div class="assistant-panel">
-          <div class="assistant-grid">
-            <div>
-              <span class="pill">ORVIX SMART GUIDE</span>
-              <h2 style="margin-top:15px">A smarter way to shop.</h2>
-              <p class="muted" style="line-height:1.8">
-                Tell the guide what you need. It will suggest matching products
-                from this demo catalog and explain why they may fit.
-              </p>
-              <p class="small muted">This is a local demo recommender, not a connected AI service.</p>
-            </div>
-            <div class="stack">
-              <label for="guideInput">What are you looking for?</label>
-              <input class="field" id="guideInput" placeholder="Example: affordable headphones for travel">
-              <div class="row">
-                <button class="btn primary" id="guideButton">Find my match ✦</button>
-                <button class="btn" id="budgetButton">Show lower-priced items</button>
-              </div>
-              <div class="chat-output" id="guideOutput" aria-live="polite">
-                Your shopping suggestions will appear here.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="compare">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="pill">BUY WITH CONFIDENCE</span>
-            <h2>Product comparison</h2>
-            <p class="muted">Select up to three products from the marketplace to compare them.</p>
-          </div>
-          <button class="btn" id="clearCompare">Clear comparison</button>
-        </div>
-        <div class="compare-list" id="compareList"></div>
-        <div class="compare-table-wrap" id="compareTable" style="margin-top:16px"></div>
-      </div>
-    </section>
-
-    <section class="section" id="wishlist">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="pill">SAVE FOR LATER</span>
-            <h2>Your wishlist</h2>
-            <p class="muted">Saved in this browser on this device.</p>
-          </div>
-          <button class="btn" id="clearWishlist">Clear wishlist</button>
-        </div>
-        <div class="wishlist-list" id="wishlistList"></div>
-      </div>
-    </section>
-
-    <section class="section" id="shorts">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="pill">DISCOVER THROUGH STORIES</span>
-            <h2>ORVIX Shorts</h2>
-            <p class="muted">A preview of how creator-led shopping content could look.</p>
-          </div>
-        </div>
-        <div class="shorts-grid" id="shortsGrid"></div>
-        <p class="small muted" style="margin-top:15px">
-          These are sample story cards, not uploaded user videos. Real video uploads require storage and backend services.
-        </p>
-      </div>
-    </section>
-
-    <section class="section" id="seller">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="pill">SELLER COMMUNITY</span>
-            <h2>Build your store on ORVIX</h2>
-            <p class="muted">Create a sample storefront and start planning your brand.</p>
-          </div>
-        </div>
-
-        <div class="store-layout">
-          <div class="panel">
-            <h3>Create your demo store</h3>
-            <form id="storeForm" class="stack">
-              <div>
-                <label for="storeName">Store name</label>
-                <input class="field" id="storeName" required maxlength="60" placeholder="Your brand name">
-              </div>
-              <div>
-                <label for="storeCategory">Main category</label>
-                <select class="field" id="storeCategory">
-                  <option>Fashion</option>
-                  <option>Electronics</option>
-                  <option>Home</option>
-                  <option>Beauty</option>
-                  <option>Sports</option>
-                  <option>Accessories</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div>
-                <label for="storeDescription">Short description</label>
-                <textarea class="field" id="storeDescription" rows="3" maxlength="240" placeholder="What makes your store special?"></textarea>
-              </div>
-              <button class="btn primary" type="submit">Create demo store</button>
-            </form>
-          </div>
-
-          <div class="panel">
-            <h3>Seller growth ideas</h3>
-            <div class="stack">
-              <div class="mini-item">
-                <div class="feature-icon">✦</div>
-                <div class="grow">
-                  <h3>Make your listings clear</h3>
-                  <p class="muted small">Use honest descriptions, useful photos and accurate prices.</p>
-                </div>
-              </div>
-              <div class="mini-item">
-                <div class="feature-icon">◎</div>
-                <div class="grow">
-                  <h3>Build customer trust</h3>
-                  <p class="muted small">Publish clear shipping, returns and contact information.</p>
-                </div>
-              </div>
-              <div class="mini-item">
-                <div class="feature-icon">↗</div>
-                <div class="grow">
-                  <h3>Tell your product story</h3>
-                  <p class="muted small">Use short product demonstrations and helpful content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:20px">
-          <h3>Your demo stores</h3>
-          <div class="store-list" id="storeList"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-icon">⌕</div>
-            <h3>Discover</h3>
-            <p>Search and filter a catalog from one convenient marketplace interface.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">♡</div>
-            <h3>Personalize</h3>
-            <p>Save favorites and compare product details before deciding.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">◈</div>
-            <h3>Build trust</h3>
-            <p>Plan clear seller policies, real reviews and safe checkout before launch.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a class="brand" href="#home">ORVIX<span>®</span></a>
-          <p class="muted" style="line-height:1.8;max-width:320px">
-            A global marketplace vision for discovering products, creators and independent brands.
-          </p>
-          <span class="pill">MADE IN MIAN ABDULLAH GULZAR</span>
-        </div>
-        <div>
-          <h3>Explore</h3>
-          <a href="#shop">Marketplace</a>
-          <a href="#shorts">ORVIX Shorts</a>
-          <a href="#guide">Smart Guide</a>
-          <a href="#compare">Compare products</a>
-        </div>
-        <div>
-          <h3>For sellers</h3>
-          <a href="#seller">Create a demo store</a>
-          <a href="#seller">Seller growth ideas</a>
-          <a href="#seller">Seller trust checklist</a>
-        </div>
-      </div>
-      <div class="copyright">
-        © <span id="year"></span> ORVIX MAG. Demo marketplace interface. All prices and listings are illustrative.
-      </div>
-    </div>
-  </footer>
-
-  <!-- Shopping cart drawer -->
-  <div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleCart(false)"></div>
-  <aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
-    <div class="drawer-head">
-      <h2>Your cart</h2>
-      <button class="btn" onclick="toggleCart(false)" aria-label="Close cart">✕</button>
-    </div>
-    <div class="drawer-body">
-      <div class="cart-list" id="cartList"></div>
-    </div>
-    <div>
-      <div class="row" style="justify-content:space-between;margin-bottom:14px">
-        <strong>Subtotal</strong><strong id="cartSubtotal">$0.00</strong>
-      </div>
-      <p class="muted small">Demo only: no real payment is collected.</p>
-      <button class="btn primary" style="width:100%" id="checkoutButton">Continue to demo checkout</button>
-    </div>
-  </aside>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    "use strict";
-
-    // -------------------------------------------------------
-    // ORVIX MAG DEMO DATA
-    // Replace these sample listings with your real catalog.
-    // -------------------------------------------------------
-    const products = [
-      { id: 1, name: "Studio Wireless Headphones", category: "Electronics", price: 49.99, rating: 4.8, tag: "POPULAR", description: "Wireless listening for everyday travel.", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=85" },
-      { id: 2, name: "Minimal Everyday Watch", category: "Accessories", price: 39.50, rating: 4.6, tag: "TRENDING", description: "A clean, minimalist accessory.", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=85" },
-      { id: 3, name: "Modern Travel Backpack", category: "Fashion", price: 54.00, rating: 4.7, tag: "FEATURED", description: "A versatile bag for daily trips.", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=85" },
-      { id: 4, name: "Everyday Running Shoes", category: "Sports", price: 68.00, rating: 4.5, tag: "NEW", description: "Comfort-inspired active footwear.", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85" },
-      { id: 5, name: "Soft Home Lamp", category: "Home", price: 32.99, rating: 4.4, tag: "HOME", description: "Warm lighting for a cozy room.", image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=85" },
-      { id: 6, name: "Everyday Sunglasses", category: "Accessories", price: 24.99, rating: 4.3, tag: "POPULAR", description: "A versatile everyday style.", image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=85" },
-      { id: 7, name: "Compact Digital Camera", category: "Electronics", price: 89.00, rating: 4.6, tag: "CREATOR", description: "A camera-inspired pick for creators.", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=85" },
-      { id: 8, name: "Daily Skincare Set", category: "Beauty", price: 27.00, rating: 4.2, tag: "CARE", description: "A sample personal-care bundle.", image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=800&q=85" },
-      { id: 9, name: "Ceramic Coffee Cup", category: "Home", price: 14.50, rating: 4.7, tag: "HOME", description: "A simple cup for your coffee ritual.", image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=800&q=85" },
-      { id: 10, name: "Portable Bluetooth Speaker", category: "Electronics", price: 35.00, rating: 4.5, tag: "AUDIO", description: "Portable sound for everyday use.", image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=800&q=85" },
-      { id: 11, name: "Classic Crossbody Bag", category: "Fashion", price: 31.99, rating: 4.4, tag: "STYLE", description: "A practical everyday bag.", image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=85" },
-      { id: 12, name: "Yoga and Fitness Mat", category: "Sports", price: 22.00, rating: 4.3, tag: "MOVE", description: "A mat for home workouts.", image: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=800&q=85" },
-      { id: 13, name: "Mechanical Style Keyboard", category: "Electronics", price: 59.00, rating: 4.8, tag: "DESK", description: "A keyboard for a tidy workspace.", image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=85" },
-      { id: 14, name: "Premium Water Bottle", category: "Sports", price: 18.99, rating: 4.5, tag: "DAILY", description: "A reusable bottle for everyday hydration.", image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=85" },
-      { id: 15, name: "Modern Desk Organizer", category: "Home", price: 19.50, rating: 4.4, tag: "DESK", description: "Keep a workspace organized.", image: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=800&q=85" },
-      { id: 16, name: "Everyday Sneakers", category: "Fashion", price: 45.00, rating: 4.6, tag: "STYLE", description: "A casual sneaker-inspired pick.", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=85" }
-    ];
-
-    const currencySettings = {
-      USD: { rate: 1, symbol: "$" },
-      PKR: { rate: 280, symbol: "Rs " },
-      GBP: { rate: 0.79, symbol: "£" },
-      EUR: { rate: 0.92, symbol: "€" }
-    };
-
-    const state = {
-      category: "All",
-      search: "",
-      sort: "featured",
-      currency: "USD",
-      cart: readJSON("orvix_cart", {}),
-      wishlist: readJSON("orvix_wishlist", []),
-      compare: [],
-      stores: readJSON("orvix_stores", [])
-    };
-
-    function readJSON(key, fallback) {
-      try {
-        const value = localStorage.getItem(key);
-        return value ? JSON.parse(value) : fallback;
-      } catch (error) {
-        return fallback;
-      }
-    }
-
-    function saveJSON(key, value) {
-      try {
-        localStorage.setItem(key, JSON.stringify(value));
-      } catch (error) {
-        notify("Browser storage is unavailable. Your changes may not be saved.");
-      }
-    }
-
-    function money(value) {
-      const setting = currencySettings[state.currency] || currencySettings.USD;
-      const amount = value * setting.rate;
-      return setting.symbol + amount.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-    }
-
-    function escapeHTML(value) {
-      return String(value).replace(/[&<>"']/g, character => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      })[character]);
-    }
-
-    let toastTimer;
-    function notify(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
-    }
-
-    function getProduct(id) {
-      return products.find(product => product.id === Number(id));
-    }
-
-    function renderCategories() {
-      const names = ["All", ...new Set(products.map(product => product.category))];
-      document.getElementById("categories").innerHTML = names.map(name => `
-        <button class="category-btn ${state.category === name ? "active" : ""}"
-          data-category="${escapeHTML(name)}">${escapeHTML(name)}</button>
-      `).join("");
-    }
-
-    function getFilteredProducts() {
-      let list = products.filter(product => {
-        const matchesCategory = state.category === "All" || product.category === state.category;
-        const haystack = (product.name + " " + product.category + " " + product.description).toLowerCase();
-        return matchesCategory && haystack.includes(state.search.toLowerCase());
-      });
-
-      if (state.sort === "low") list.sort((a, b) => a.price - b.price);
-      if (state.sort === "high") list.sort((a, b) => b.price - a.price);
-      if (state.sort === "rating") list.sort((a, b) => b.rating - a.rating);
-      if (state.sort === "name") list.sort((a, b) => a.name.localeCompare(b.name));
-      return list;
-    }
-
-    function renderProducts() {
-      const list = getFilteredProducts();
-      document.getElementById("resultCount").textContent = `${list.length} products`;
-
-      const grid = document.getElementById("productGrid");
-      if (!list.length) {
-        grid.innerHTML = '<div class="empty" style="grid-column:1/-1">No products found. Try another search.</div>';
-        return;
-      }
-
-      grid.innerHTML = list.map(product => {
-        const saved = state.wishlist.includes(product.id);
-        const compared = state.compare.includes(product.id);
-        return `
-          <article class="product-card">
-            <div class="product-image">
-              <img src="${product.image}" alt="${escapeHTML(product.name)}" loading="lazy">
-              <span class="pill product-tag">${escapeHTML(product.tag)}</span>
-              <button class="heart-btn ${saved ? "saved" : ""}" data-action="wishlist"
-                data-id="${product.id}" aria-label="Save ${escapeHTML(product.name)}">${saved ? "♥" : "♡"}</button>
-            </div>
-            <div class="product-info">
-              <div class="product-meta"><span>${escapeHTML(product.category)}</span><span>★ ${product.rating}</span></div>
-              <h3>${escapeHTML(product.name)}</h3>
-              <div class="muted small">${escapeHTML(product.description)}</div>
-              <div class="price">${money(product.price)}</div>
-              <div class="card-buttons">
-                <button class="btn primary" data-action="add" data-id="${product.id}">Add to cart</button>
-                <button class="btn" data-action="compare" data-id="${product.id}">${compared ? "✓ Added" : "Compare"}</button>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    function renderCart() {
-      const ids = Object.keys(state.cart).filter(id => state.cart[id] > 0);
-      const quantity = ids.reduce((sum, id) => sum + state.cart[id], 0);
-      const subtotal = ids.reduce((sum, id) => {
-        const product = getProduct(id);
-        return sum + (product ? product.price * state.cart[id] : 0);
-      }, 0);
-
-      document.getElementById("cartCount").textContent = quantity;
-      document.getElementById("cartSubtotal").textContent = money(subtotal);
-
-      const cartList = document.getElementById("cartList");
-      if (!ids.length) {
-        cartList.innerHTML = '<div class="empty">Your cart is empty.<br>Find something you love.</div>';
-      } else {
-        cartList.innerHTML = ids.map(id => {
-          const product = getProduct(id);
-          if (!product) return "";
-          return `
-            <div class="mini-item">
-              <img src="${product.image}" alt="${escapeHTML(product.name)}">
-              <div class="grow">
-                <h3>${escapeHTML(product.name)}</h3>
-                <div class="muted small">${money(product.price)} each</div>
-                <div class="row" style="margin-top:8px">
-                  <button class="btn" data-action="qty" data-id="${id}" data-delta="-1">−</button>
-                  <strong>${state.cart[id]}</strong>
-                  <button class="btn" data-action="qty" data-id="${id}" data-delta="1">+</button>
-                </div>
-              </div>
-              <button class="btn" data-action="remove" data-id="${id}" aria-label="Remove item">✕</button>
-            </div>
-          `;
-        }).join("");
-      }
-      saveJSON("orvix_cart", state.cart);
-    }
-
-    function toggleCart(open) {
-      document.getElementById("drawerBackdrop").classList.toggle("open", open);
-      document.getElementById("cartDrawer").classList.toggle("open", open);
-      document.body.style.overflow = open ? "hidden" : "";
-    }
-
-    function addToCart(id) {
-      state.cart[id] = (state.cart[id] || 0) + 1;
-      renderCart();
-      notify("Added to your demo cart.");
-    }
-
-    function renderWishlist() {
-      document.getElementById("wishCount").textContent = state.wishlist.length;
-      const list = state.wishlist.map(getProduct).filter(Boolean);
-      const target = document.getElementById("wishlistList");
-
-      if (!list.length) {
-        target.innerHTML = '<div class="empty">No saved products yet. Tap ♡ on a product to save it.</div>';
-      } else {
-        target.innerHTML = list.map(product => `
-          <div class="mini-item">
-            <img src="${product.image}" alt="${escapeHTML(product.name)}">
-            <div class="grow">
-              <h3>${escapeHTML(product.name)}</h3>
-              <div class="muted small">${escapeHTML(product.category)}</div>
-              <strong>${money(product.price)}</strong>
-            </div>
-            <button class="btn primary" data-action="add" data-id="${product.id}">Add</button>
-            <button class="btn" data-action="wishlist" data-id="${product.id}">♥</button>
-          </div>
-        `).join("");
-      }
-      saveJSON("orvix_wishlist", state.wishlist);
-    }
-
-    function toggleWishlist(id) {
-      id = Number(id);
-      if (state.wishlist.includes(id)) {
-        state.wishlist = state.wishlist.filter(item => item !== id);
-        notify("Removed from wishlist.");
-      } else {
-        state.wishlist.push(id);
-        notify("Saved to your wishlist.");
-      }
-      renderWishlist();
-      renderProducts();
-    }
-
-    function showWishlist() {
-      document.getElementById("wishlist").scrollIntoView({ behavior: "smooth" });
-    }
-
-    function toggleCompare(id) {
-      id = Number(id);
-      if (state.compare.includes(id)) {
-        state.compare = state.compare.filter(item => item !== id);
-      } else {
-        if (state.compare.length >= 3) {
-          notify("Compare up to 3 products at a time.");
-          return;
-        }
-        state.compare.push(id);
-      }
-      renderCompare();
-      renderProducts();
-    }
-
-    function renderCompare() {
-      const list = state.compare.map(getProduct).filter(Boolean);
-      const compareList = document.getElementById("compareList");
-      const compareTable = document.getElementById("compareTable");
-
-      if (!list.length) {
-        compareList.innerHTML = '<div class="empty">No products selected. Choose Compare on a product card.</div>';
-        compareTable.innerHTML = "";
-        return;
-      }
-
-      compareList.innerHTML = list.map(product => `
-        <div class="mini-item">
-          <img src="${product.image}" alt="${escapeHTML(product.name)}">
-          <div class="grow"><h3>${escapeHTML(product.name)}</h3><div class="muted small">${money(product.price)}</div></div>
-          <button class="btn" data-action="compare" data-id="${product.id}">Remove</button>
-        </div>
-      `).join("");
-
-      const rows = [
-        ["Product", product => escapeHTML(product.name)],
-        ["Category", product => escapeHTML(product.category)],
-        ["Price", product => money(product.price)],
-        ["Demo rating", product => "★ " + product.rating],
-        ["Description", product => escapeHTML(product.description)]
-      ];
-
-      compareTable.innerHTML = `
-        <table>
-          <thead><tr><th>Feature</th>${list.map(product => `<th>${escapeHTML(product.name)}</th>`).join("")}</tr></thead>
-          <tbody>${rows.map(([label, value]) => `
-            <tr><th>${label}</th>${list.map(product => `<td>${value(product)}</td>`).join("")}</tr>
-          `).join("")}</tbody>
-        </table>
-        <p class="muted small">Demo comparison only. Ratings are sample data, not verified customer reviews.</p>
-      `;
-    }
-
-    function renderShorts() {
-      const stories = [
-        { productId: 1, title: "Your everyday audio setup", text: "Explore headphones for your daily routine.", image: products[0].image },
-        { productId: 3, title: "Pack for your next trip", text: "Discover practical everyday carry.", image: products[2].image },
-        { productId: 7, title: "Create something new", text: "Explore gear-inspired picks for creators.", image: products[6].image }
-      ];
-
-      document.getElementById("shortsGrid").innerHTML = stories.map(story => `
-        <article class="short-card">
-          <img src="${story.image}" alt="${escapeHTML(story.title)}" loading="lazy">
-          <div class="short-overlay">
-            <span class="pill" style="align-self:flex-start">ORVIX STORY</span>
-            <h3>${escapeHTML(story.title)}</h3>
-            <p>${escapeHTML(story.text)}</p>
-            <button class="btn primary" data-action="story" data-id="${story.productId}">Explore product ↗</button>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function getRecommendations(query, cheapOnly) {
-      const words = query.toLowerCase().split(/[^a-z0-9]+/).filter(word => word.length > 2);
-      let matches = products.map(product => {
-        const text = (product.name + " " + product.category + " " + product.description).toLowerCase();
-        const score = words.reduce((total, word) => total + (text.includes(word) ? 2 : 0), 0);
-        return { product, score };
-      });
-
-      if (cheapOnly) {
-        matches.sort((a, b) => a.product.price - b.product.price);
-        return matches.slice(0, 5).map(item => item.product);
-      }
-
-      matches = matches.filter(item => item.score > 0).sort((a, b) =>
-        b.score - a.score || b.product.rating - a.product.rating
-      );
-
-      if (!matches.length) {
-        matches = products.map(product => ({ product, score: 0 }))
-          .sort((a, b) => b.product.rating - a.product.rating);
-      }
-
-      return matches.slice(0, 4).map(item => item.product);
-    }
-
-    function runGuide(cheapOnly) {
-      const query = document.getElementById("guideInput").value.trim();
-      const recommendations = getRecommendations(query, cheapOnly);
-      const intro = cheapOnly
-        ? "Here are some lower-priced options from the demo catalog:"
-        : query
-          ? `Suggestions for "${query}":`
-          : "You haven't entered a preference yet. Here are some highly rated demo picks:";
-
-      document.getElementById("guideOutput").textContent = intro + "\n\n" +
-        recommendations.map((product, index) =>
-          `${index + 1}. ${product.name} — ${money(product.price)}\n${product.description} (Demo rating: ${product.rating}/5)`
-        ).join("\n\n") +
-        "\n\nTip: compare options and check real seller details before buying.";
-    }
-
-    function renderStores() {
-      const target = document.getElementById("storeList");
-      if (!state.stores.length) {
-        target.innerHTML = '<div class="empty">Your demo stores will appear here after you create one.</div>';
-        return;
-      }
-
-      target.innerHTML = state.stores.map((store, index) => `
-        <div class="mini-item">
-          <div class="feature-icon">◈</div>
-          <div class="grow">
-            <h3>${escapeHTML(store.name)}</h3>
-            <div class="muted small">${escapeHTML(store.category)} · ${escapeHTML(store.description || "No description added.")}</div>
-            <div class="muted small">Demo storefront · not publicly published</div>
-          </div>
-          <button class="btn" data-action="delete-store" data-id="${index}">Delete</button>
-        </div>
-      `).join("");
-      saveJSON("orvix_stores", state.stores);
-    }
-
-    // One delegated click handler for product cards and dynamic lists.
-    document.addEventListener("click", event => {
-      const categoryButton = event.target.closest("[data-category]");
-      if (categoryButton) {
-        state.category = categoryButton.dataset.category;
-        renderCategories();
-        renderProducts();
-        return;
-      }
-
-      const button = event.target.closest("[data-action]");
-      if (!button) return;
-
-      const id = Number(button.dataset.id);
-      switch (button.dataset.action) {
-        case "add":
-          addToCart(id);
-          break;
-        case "wishlist":
-          toggleWishlist(id);
-          break;
-        case "compare":
-          toggleCompare(id);
-          break;
-        case "qty":
-          state.cart[id] = (state.cart[id] || 0) + Number(button.dataset.delta);
-          if (state.cart[id] <= 0) delete state.cart[id];
-          renderCart();
-          break;
-        case "remove":
-          delete state.cart[id];
-          renderCart();
-          notify("Item removed.");
-          break;
-        case "story":
-          addToCart(id);
-          toggleCart(true);
-          break;
-        case "delete-store": {
-          const index = Number(button.dataset.id);
-          state.stores.splice(index, 1);
-          renderStores();
-          notify("Demo store deleted.");
-          break;
-        }
-      }
-    });
-
-    document.getElementById("searchInput").addEventListener("input", event => {
-      state.search = event.target.value.trim();
-      renderProducts();
-    });
-
-    document.getElementById("sortSelect").addEventListener("change", event => {
-      state.sort = event.target.value;
-      renderProducts();
-    });
-
-    document.getElementById("currencySelect").addEventListener("change", event => {
-      state.currency = event.target.value;
-      renderProducts();
-      renderCart();
-      renderWishlist();
-      renderCompare();
-      runGuide(false);
-    });
-
-    document.getElementById("guideButton").addEventListener("click", () => runGuide(false));
-    document.getElementById("budgetButton").addEventListener("click", () => runGuide(true));
-    document.getElementById("guideInput").addEventListener("keydown", event => {
-      if (event.key === "Enter") runGuide(false);
-    });
-
-    document.getElementById("clearCompare").addEventListener("click", () => {
-      state.compare = [];
-      renderCompare();
-      renderProducts();
-    });
-
-    document.getElementById("clearWishlist").addEventListener("click", () => {
-      state.wishlist = [];
-      renderWishlist();
-      renderProducts();
-      notify("Wishlist cleared.");
-    });
-
-    document.getElementById("storeForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const name = document.getElementById("storeName").value.trim();
-      const category = document.getElementById("storeCategory").value;
-      const description = document.getElementById("storeDescription").value.trim();
-
-      if (!name) {
-        notify("Please enter a store name.");
-        return;
-      }
-
-      state.stores.unshift({
-        name,
-        category,
-        description,
-        createdAt: new Date().toISOString()
-      });
-      saveJSON("orvix_stores", state.stores);
-      renderStores();
-      event.target.reset();
-      notify("Demo store created on this device.");
-    });
-
-    document.getElementById("checkoutButton").addEventListener("click", () => {
-      if (!Object.keys(state.cart).length) {
-        notify("Your cart is empty.");
-        return;
-      }
-      notify("Demo checkout only. No payment was taken.");
-    });
-
-    // First render
-    document.getElementById("year").textContent = new Date().getFullYear();
-    renderCategories();
-    renderProducts();
-    renderCart();
-    renderWishlist();
-    renderCompare();
-    renderShorts();
-    renderStores();
-    runGuide(false);
-  </script>
+<div class="announcement">ORVIX MAG · ONE DESTINATION FOR SHOPPING AND SELLING</div>
+<header>
+ <div class="container nav">
+  <a class="logo" href="#home">ORVIX<span> MAG.</span></a>
+  <nav class="links"><a href="#shop">Shop</a><a href="#sell">Sell</a><a href="#orders">Orders</a><a href="#assistant">AI</a><a href="#security">Security</a></nav>
+  <div class="actions">
+   <button class="btn" id="openWishlist">♡ <span id="wishCount" class="count">0</span></button>
+   <button class="btn" id="openCart">Cart <span id="cartCount" class="count">0</span></button>
+  </div>
+ </div>
+</header>
+
+<main>
+<section class="container hero" id="home">
+ <div>
+  <div class="kicker">The global marketplace experience</div>
+  <h1>Buy better.<br>Sell <span>worldwide.</span></h1>
+  <p>Discover products, compare options and explore independent stores. ORVIX MAG combines shopping, seller tools and AI-ready experiences in one platform.</p>
+  <div class="heroBtns"><a class="btn primary" href="#shop">Explore marketplace ↗</a><a class="btn" href="#sell">Open seller tools</a></div>
+  <p class="smallnote">MADE IN MIAN ABDULLAH GULZAR</p>
+ </div>
+ <div class="heroart"><div class="heroartText"><b>YOUR WORLD. ONE MARKET.</b><div>Discover · Compare · Create · Grow</div></div></div>
+</section>
+
+<div class="container stats">
+ <div class="stat"><b>Discover</b><span>Search across categories</span></div>
+ <div class="stat"><b>Compare</b><span>Check product choices</span></div>
+ <div class="stat"><b>Create</b><span>Preview a seller store</span></div>
+ <div class="stat"><b>Global</b><span>Country-ready interface</span></div>
+</div>
+
+<section class="container section" id="shop">
+ <div class="sectionhead"><div><div class="kicker">Marketplace</div><h2>Explore products</h2><p>Sample listings for testing the interface.</p></div><span class="status">SAMPLE CATALOG</span></div>
+ <div class="toolbar">
+  <input class="fieldInput search" id="search" placeholder="Search products, brands, categories..." aria-label="Search products">
+  <select id="currency" aria-label="Currency"><option value="USD">USD $</option><option value="PKR">PKR Rs</option><option value="GBP">GBP £</option><option value="EUR">EUR €</option></select>
+  <select id="sort"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="name">Name A–Z</option></select>
+ </div>
+ <div class="chips" id="categories"></div>
+ <div class="grid" id="products"></div>
+</section>
+
+<section class="container section" id="features">
+ <div class="sectionhead"><div><div class="kicker">Marketplace toolkit</div><h2>One platform, many tools</h2><p>Shopping, selling and discovery features.</p></div></div>
+ <div class="features">
+  <div class="feature"><div class="emoji">🛍️</div><h3>Shopping experience</h3><p>Product search, categories, cart, wishlist, comparison and demo checkout.</p></div>
+  <div class="feature"><div class="emoji">🏪</div><h3>Seller storefronts</h3><p>Store profile form and product listing draft interface.</p></div>
+  <div class="feature"><div class="emoji">📦</div><h3>Order workspace</h3><p>See demo cart information and the order workflow status.</p></div>
+  <div class="feature"><div class="emoji">🌐</div><h3>Regional settings</h3><p>Choose country and currency preferences for this browser.</p></div>
+  <div class="feature"><div class="emoji">✨</div><h3>Shopping assistant</h3><p>Local rule-based product suggestions. Live AI needs a protected API connection.</p></div>
+  <div class="feature"><div class="emoji">🔒</div><h3>Security planning</h3><p>Real accounts, verification and payment confirmation require server-side implementation.</p></div>
+ </div>
+</section>
+
+<section class="container section" id="assistant">
+ <div class="panel">
+  <div class="kicker">ORVIX assistant</div><h2>Find what fits your needs</h2>
+  <p class="muted">Describe a product or budget to get suggestions from the local sample catalog.</p>
+  <div class="airow"><input class="fieldInput" id="aiPrompt" placeholder="Example: headphones under 50 dollars"><button class="btn primary" id="askAI">Find products</button></div>
+  <div class="result" id="aiResult" role="status"></div>
+ </div>
+</section>
+
+<section class="container section" id="sell">
+ <div class="sectionhead"><div><div class="kicker">Seller centre</div><h2>Create your store</h2><p>Build a local store profile and draft product listings.</p></div></div>
+ <div class="columns">
+  <div class="panel">
+   <h3>Store registration</h3>
+   <form id="storeForm" class="formgrid">
+    <div class="formField"><label for="storeName">Store name</label><input class="fieldInput" id="storeName" required maxlength="60" placeholder="My Store"></div>
+    <div class="formField"><label for="sellerName">Seller display name</label><input class="fieldInput" id="sellerName" required maxlength="60" placeholder="Your name"></div>
+    <div class="formField"><label for="sellerCountry">Country</label><select id="sellerCountry"><option>Pakistan</option><option>United States</option><option>United Kingdom</option><option>Canada</option><option>United Arab Emirates</option><option>Saudi Arabia</option><option>Australia</option><option>Germany</option><option>Other</option></select></div>
+    <div class="formField"><label for="storeType">Store category</label><select id="storeType"><option>General</option><option>Fashion</option><option>Electronics</option><option>Home</option><option>Beauty</option><option>Sports</option></select></div>
+    <div class="full"><button class="btn primary" type="submit">Preview store</button></div>
+   </form>
+   <div class="result" id="storeResult"></div>
+  </div>
+  <div class="panel">
+   <h3>Create a product listing</h3>
+   <form id="listingForm" class="formgrid">
+    <div class="formField full"><label for="listingName">Product title</label><input class="fieldInput" id="listingName" required maxlength="100" placeholder="Product name"></div>
+    <div class="formField"><label for="listingPrice">Price in USD</label><input class="fieldInput" id="listingPrice" type="number" min=".01" max="10000000" step=".01" required placeholder="19.99"></div>
+    <div class="formField"><label for="listingCategory">Category</label><select id="listingCategory"><option>Fashion</option><option>Electronics</option><option>Home</option><option>Beauty</option><option>Sports</option><option>Lifestyle</option></select></div>
+    <div class="formField full"><label for="listingDesc">Description</label><textarea id="listingDesc" rows="3" maxlength="1000" placeholder="Describe product features and condition"></textarea></div>
+    <div class="full"><button class="btn primary" type="submit">Save local draft</button></div>
+   </form>
+   <p class="smallnote">Drafts are stored only in this browser. They are not published to a real marketplace.</p>
+   <div class="result" id="listingResult"></div>
+  </div>
+ </div>
+</section>
+
+<section class="container section" id="orders">
+ <div class="sectionhead"><div><div class="kicker">Order centre</div><h2>Order workspace</h2><p>This section shows the current browser's demo cart state.</p></div></div>
+ <div class="panel">
+  <div class="tableWrap"><table><thead><tr><th>Item</th><th>Quantity</th><th>Subtotal</th><th>Status</th></tr></thead><tbody id="orderRows"></tbody></table></div>
+  <p class="smallnote">No real orders exist until an authenticated backend and order database are connected. Demo checkout does not charge money.</p>
+  <button class="btn primary" id="viewCartFromOrders">Review cart</button>
+ </div>
+</section>
+
+<section class="container section" id="security">
+ <div class="sectionhead"><div><div class="kicker">Trust and safety</div><h2>Build real security</h2><p>These are integration requirements, not completed verifications.</p></div></div>
+ <div class="features">
+  <div class="feature"><div class="emoji">👤</div><h3>Customer accounts</h3><p>Connect secure authentication, password recovery and account permissions.</p><span class="status">NOT CONNECTED</span></div>
+  <div class="feature"><div class="emoji">🪪</div><h3>Seller verification</h3><p>Use a trusted provider and country-specific rules. Verify status on the server.</p><span class="status">NOT CONNECTED</span></div>
+  <div class="feature"><div class="emoji">💳</div><h3>Real payments</h3><p>Use an eligible payment provider, server-side confirmation and signed webhooks.</p><span class="status">NOT CONNECTED</span></div>
+  <div class="feature"><div class="emoji">🗄️</div><h3>Shared database</h3><p>Store products, inventory, users and orders with access rules on the backend.</p><span class="status">NOT CONNECTED</span></div>
+  <div class="feature"><div class="emoji">🤖</div><h3>Live AI</h3><p>Call AI from a server function. Never expose private API keys in this HTML.</p><span class="status">NOT CONNECTED</span></div>
+  <div class="feature"><div class="emoji">🚚</div><h3>Shipping and returns</h3><p>Connect supported shipping services and create real tracking workflows.</p><span class="status">NOT CONNECTED</span></div>
+ </div>
+</section>
+</main>
+
+<div class="comparebar" id="compareBar"><div class="container"><span id="compareLabel">0 selected</span><div><button class="btn" id="compareNow">Compare</button> <button class="btn" id="clearCompare">Clear</button></div></div></div>
+
+<footer><div class="container footrow">
+ <div><a class="logo" href="#home">ORVIX<span> MAG.</span></a><p>MADE IN MIAN ABDULLAH GULZAR</p></div>
+ <div><b>Global marketplace starter</b><p>Demo catalog · Local drafts · No live payment processing</p></div>
+ <div><a href="#shop">Shop</a> · <a href="#sell">Seller centre</a> · <a href="#security">Security</a></div>
+</div></footer>
+
+<div class="modalBack" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+ <div class="modal"><div class="modalHead"><h2 id="modalTitle">ORVIX MAG</h2><button class="close" id="closeModal">✕</button></div><div id="modalBody"></div></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+"use strict";
+const products=[
+{id:1,name:"Wireless Headphones",cat:"Electronics",price:39.99,rating:4.7,tag:"Popular",brand:"ORVIX Audio",desc:"Wireless headphone concept for everyday use.",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80"},
+{id:2,name:"Classic Sneakers",cat:"Fashion",price:54,rating:4.6,tag:"Featured",brand:"StreetForm",desc:"Casual sneaker concept for everyday outfits.",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80"},
+{id:3,name:"Smart Watch",cat:"Electronics",price:69,rating:4.5,tag:"Trending",brand:"PulseLab",desc:"Modern watch concept for everyday style.",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80"},
+{id:4,name:"Everyday Backpack",cat:"Lifestyle",price:44.5,rating:4.8,tag:"Popular",brand:"CarryCo",desc:"Backpack concept for work, study and travel.",img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80"},
+{id:5,name:"Minimal Desk Lamp",cat:"Home",price:28.99,rating:4.4,tag:"Home",brand:"GlowHouse",desc:"Lamp concept for a modern workspace.",img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=700&q=80"},
+{id:6,name:"Skincare Gift Set",cat:"Beauty",price:24,rating:4.3,tag:"Beauty",brand:"PureDay",desc:"Sample skincare gift set listing.",img:"https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=700&q=80"},
+{id:7,name:"Studio Sunglasses",cat:"Fashion",price:19.99,rating:4.2,tag:"Style",brand:"SunTheory",desc:"Simple accessory concept for sunny days.",img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80"},
+{id:8,name:"Bluetooth Speaker",cat:"Electronics",price:32,rating:4.6,tag:"Popular",brand:"SoundPeak",desc:"Compact speaker concept for everyday listening.",img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=700&q=80"},
+{id:9,name:"Decorative Cushion",cat:"Home",price:16.5,rating:4.1,tag:"Home",brand:"CozyNest",desc:"Cushion concept for a comfortable living space.",img:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=700&q=80"},
+{id:10,name:"Minimal Wallet",cat:"Lifestyle",price:22,rating:4.5,tag:"Essential",brand:"PocketWorks",desc:"Minimalist wallet concept for daily essentials.",img:"https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=700&q=80"},
+{id:11,name:"Sports Shoes",cat:"Sports",price:49,rating:4.4,tag:"Sport",brand:"MotionBase",desc:"Sports footwear concept for an active lifestyle.",img:"https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=700&q=80"},
+{id:12,name:"Ceramic Coffee Mug",cat:"Home",price:12.99,rating:4.7,tag:"Gift",brand:"Morning Form",desc:"Ceramic mug concept for your morning routine.",img:"https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=700&q=80"},
+{id:13,name:"Travel Bottle",cat:"Lifestyle",price:18,rating:4.3,tag:"Travel",brand:"TrailDay",desc:"Reusable bottle concept for everyday use.",img:"https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=700&q=80"},
+{id:14,name:"Modern Home Vase",cat:"Home",price:25,rating:4.2,tag:"Decor",brand:"Forma Home",desc:"Decorative vase concept for a modern home.",img:"https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=700&q=80"},
+{id:15,name:"Compact Camera",cat:"Electronics",price:99,rating:4.5,tag:"Creator",brand:"FrameLab",desc:"Camera concept for creators and travellers.",img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=700&q=80"},
+{id:16,name:"Crossbody Bag",cat:"Fashion",price:34,rating:4.4,tag:"Style",brand:"EveryForm",desc:"Crossbody bag concept for everyday essentials.",img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=700&q=80"}
+];
+const $=id=>document.getElementById(id);
+const safeRead=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+let cart=safeRead("orvix2_cart",[]);
+let wishlist=safeRead("orvix2_wishlist",[]);
+let compare=safeRead("orvix2_compare",[]);
+let customListings=safeRead("orvix2_listings",[]);
+let activeCategory="All";
+let currency=localStorage.getItem("orvix2_currency")||"USD";
+const rates={USD:1,PKR:280,GBP:.79,EUR:.92};
+const symbols={USD:"$",PKR:"Rs ",GBP:"£",EUR:"€"};
+let toastTimer;
+
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function money(n){return symbols[currency]+(n*rates[currency]).toLocaleString("en-US",{minimumFractionDigits:currency==="PKR"?0:2,maximumFractionDigits:currency==="PKR"?0:2})}
+function notify(s){$("toast").textContent=s;$("toast").style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").style.display="none",2500)}
+function save(){
+ localStorage.setItem("orvix2_cart",JSON.stringify(cart));
+ localStorage.setItem("orvix2_wishlist",JSON.stringify(wishlist));
+ localStorage.setItem("orvix2_compare",JSON.stringify(compare));
+ localStorage.setItem("orvix2_listings",JSON.stringify(customListings));
+ updateCounts();
+}
+function updateCounts(){
+ $("cartCount").textContent=cart.reduce((n,i)=>n+i.qty,0);
+ $("wishCount").textContent=wishlist.length;
+ $("compareLabel").textContent=compare.length+" product(s) selected";
+ $("compareBar").style.display=compare.length?"block":"none";
+ renderOrders();
+}
+function allProducts(){return [...products,...customListings]}
+function renderCategories(){
+ const cats=["All",...new Set(allProducts().map(p=>p.cat))];
+ $("categories").innerHTML=cats.map(c=>`<button class="chip ${c===activeCategory?"active":""}" data-cat="${escapeHTML(c)}">${escapeHTML(c)}</button>`).join("");
+}
+function renderProducts(){
+ const query=$("search").value.trim().toLowerCase();
+ let list=allProducts().filter(p=>(activeCategory==="All"||p.cat===activeCategory)&&[p.name,p.cat,p.brand,p.desc].some(x=>String(x).toLowerCase().includes(query)));
+ const sort=$("sort").value;
+ if(sort==="low")list.sort((a,b)=>a.price-b.price);
+ if(sort==="high")list.sort((a,b)=>b.price-a.price);
+ if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
+ $("products").innerHTML=list.length?list.map(p=>`
+ <article class="product">
+  <div class="productImg" data-detail="${p.id}">
+   <img src="${p.img||""}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.style.display='none'">
+   <span class="tag">${escapeHTML(p.tag||"Seller listing")}</span>
+   <button class="heart ${wishlist.includes(p.id)?"saved":""}" data-wish="${p.id}" aria-label="Toggle favourite">${wishlist.includes(p.id)?"♥":"♡"}</button>
+  </div>
+  <div class="productBody">
+   <div class="category">${escapeHTML(p.cat)} · ${escapeHTML(p.brand||"Seller listing")}</div>
+   <h3>${escapeHTML(p.name)}</h3>
+   <div class="rating">★ ${Number(p.rating||0).toFixed(1)} <span class="muted">sample</span></div>
+   <div class="price">${money(Number(p.price))}</div>
+   <div class="smallnote">Demo listing · availability unconfirmed</div>
+   <div class="productBtns"><button class="btn primary" data-add="${p.id}">Add to cart</button><button class="btn" data-compare="${p.id}">${compare.includes(p.id)?"✓ Selected":"Compare"}</button></div>
+  </div>
+ </article>`).join(""):`<div class="empty">No products found. Try another search.</div>`;
+}
+function refresh(){renderCategories();renderProducts();updateCounts()}
+function openModal(title,html){$("modalTitle").textContent=title;$("modalBody").innerHTML=html;$("modalBack").classList.add("open")}
+function closeModal(){$("modalBack").classList.remove("open")}
+function addCart(id){
+ const p=allProducts().find(x=>x.id===id);if(!p)return;
+ const item=cart.find(x=>x.id===id);if(item)item.qty++;else cart.push({id,qty:1});
+ save();renderProducts();notify("Added to your local demo cart.");
+}
+function toggleWish(id){
+ wishlist=wishlist.includes(id)?wishlist.filter(x=>x!==id):[...wishlist,id];
+ save();renderProducts();notify(wishlist.includes(id)?"Added to wishlist.":"Removed from wishlist.");
+}
+function toggleCompare(id){
+ if(compare.includes(id))compare=compare.filter(x=>x!==id);
+ else if(compare.length>=3){notify("Compare up to 3 products.");return}
+ else compare.push(id);
+ save();renderProducts();
+}
+function showDetails(id){
+ const p=allProducts().find(x=>x.id===id);if(!p)return;
+ openModal(p.name,`<img src="${p.img||""}" alt="${escapeHTML(p.name)}" style="width:100%;height:220px;object-fit:cover;border-radius:10px" onerror="this.style.display='none'">
+ <p class="category">${escapeHTML(p.cat)} · ${escapeHTML(p.brand||"Seller listing")}</p><h2>${escapeHTML(p.name)}</h2>
+ <p class="muted">${escapeHTML(p.desc||"Seller description not supplied.")}</p><div class="price">${money(Number(p.price))}</div>
+ <p class="smallnote">Sample product details. Confirm seller identity, availability, delivery and return terms before any real purchase.</p>
+ <button class="btn primary" data-add="${p.id}">Add to demo cart</button>`);
+}
+function showCart(){
+ const lines=cart.map(i=>{const p=allProducts().find(x=>x.id===i.id);if(!p)return "";
+ return `<div class="cartLine"><div><b>${escapeHTML(p.name)}</b><small>${money(p.price)} each</small>
+ <button class="btn" data-minus="${i.id}">−</button> ${i.qty} <button class="btn" data-plus="${i.id}">+</button>
+ <button class="btn danger" data-remove="${i.id}">Remove</button></div><b>${money(p.price*i.qty)}</b></div>`}).join("");
+ const total=cart.reduce((s,i)=>{const p=allProducts().find(x=>x.id===i.id);return s+(p?p.price*i.qty:0)},0);
+ openModal("Shopping cart",cart.length?`${lines}<div class="cartTotal"><span>Demo subtotal</span><span>${money(total)}</span></div>
+ <p class="smallnote">No taxes or shipping calculated. No payment will be taken and no real order will be placed.</p>
+ <button class="btn primary" id="demoCheckout">Continue to demo checkout</button>`:"<p>Your cart is empty.</p><a class='btn primary' href='#shop' id='goShop'>Explore products</a>");
+}
+function showWishlist(){
+ const items=allProducts().filter(p=>wishlist.includes(p.id));
+ openModal("Saved favourites",items.length?items.map(p=>`<div class="cartLine"><div><b>${escapeHTML(p.name)}</b><small>${money(p.price)}</small></div><button class="btn" data-detail="${p.id}">View</button><button class="btn danger" data-unwish="${p.id}">Remove</button></div>`).join(""):"<p>Your wishlist is empty. Select the heart on a product to save it.");
+}
+function showCompare(){
+ const items=allProducts().filter(p=>compare.includes(p.id));
+ openModal("Compare products",items.length?items.map(p=>`<div class="panel"><b>${escapeHTML(p.name)}</b><p class="smallnote">${escapeHTML(p.cat)} · ${escapeHTML(p.brand||"Seller listing")}</p><div class="price">${money(p.price)}</div><p class="smallnote">Sample rating: ${p.rating||"Not supplied"}</p></div>`).join(""):"<p>Select products to compare.");
+}
+function renderOrders(){
+ const rows=cart.map(i=>{const p=allProducts().find(x=>x.id===i.id);if(!p)return "";
+ return `<tr><td>${escapeHTML(p.name)}</td><td>${i.qty}</td><td>${money(p.price*i.qty)}</td><td><span class="status">CART ONLY</span></td></tr>`}).join("");
+ $("orderRows").innerHTML=rows||`<tr><td colspan="4" class="muted">No items in the demo cart. No real orders have been placed.</td></tr>`;
+}
+function askAssistant(){
+ const q=$("aiPrompt").value.trim().toLowerCase(),out=$("aiResult");out.style.display="block";
+ if(!q){out.textContent="Enter a product type or budget first.";return}
+ const words=q.split(/\s+/).filter(w=>w.length>2);
+ let matches=allProducts().filter(p=>words.some(w=>(p.name+" "+p.cat+" "+p.brand+" "+p.desc).toLowerCase().includes(w)));
+ const nums=q.match(/\d+(?:\.\d+)?/g);
+ if(nums&&/\b(under|below|less|max|budget)\b/.test(q))matches=matches.filter(p=>p.price<=Number(nums[0]));
+ if(!matches.length)matches=allProducts().slice(0,4);
+ out.textContent="ORVIX local shopping suggestions:\n\n"+matches.slice(0,5).map(p=>`• ${p.name} — ${money(p.price)}`).join("\n")+"\n\nThis is a rule-based browser assistant, not live AI.";
+}
+$("search").addEventListener("input",renderProducts);
+$("sort").addEventListener("change",renderProducts);
+$("currency").addEventListener("change",()=>{currency=$("currency").value;localStorage.setItem("orvix2_currency",currency);renderProducts();renderOrders()});
+$("openCart").addEventListener("click",showCart);
+$("openWishlist").addEventListener("click",showWishlist);
+$("closeModal").addEventListener("click",closeModal);
+$("modalBack").addEventListener("click",e=>{if(e.target===$("modalBack"))closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+$("askAI").addEventListener("click",askAssistant);
+$("aiPrompt").addEventListener("keydown",e=>{if(e.key==="Enter")askAssistant()});
+$("compareNow").addEventListener("click",showCompare);
+$("clearCompare").addEventListener("click",()=>{compare=[];save();renderProducts()});
+$("viewCartFromOrders").addEventListener("click",showCart);
+
+document.addEventListener("click",e=>{
+ const t=e.target.closest("button,[data-detail]");if(!t)return;
+ if(t.dataset.cat){activeCategory=t.dataset.cat;renderCategories();renderProducts();return}
+ if(t.dataset.add!==undefined){addCart(Number(t.dataset.add));return}
+ if(t.dataset.wish!==undefined){toggleWish(Number(t.dataset.wish));return}
+ if(t.dataset.compare!==undefined){toggleCompare(Number(t.dataset.compare));return}
+ if(t.dataset.detail!==undefined){showDetails(Number(t.dataset.detail));return}
+ if(t.dataset.plus!==undefined){const i=cart.find(x=>x.id===Number(t.dataset.plus));if(i)i.qty++;save();showCart();return}
+ if(t.dataset.minus!==undefined){const id=Number(t.dataset.minus),i=cart.find(x=>x.id===id);if(i)i.qty--;cart=cart.filter(x=>x.qty>0);save();showCart();return}
+ if(t.dataset.remove!==undefined){cart=cart.filter(x=>x.id!==Number(t.dataset.remove));save();showCart();return}
+ if(t.dataset.unwish!==undefined){toggleWish(Number(t.dataset.unwish));showWishlist();return}
+ if(t.id==="demoCheckout"){
+  const total=cart.reduce((s,i)=>{const p=allProducts().find(x=>x.id===i.id);return s+(p?p.price*i.qty:0)},0);
+  openModal("Demo checkout",`<div class="panel"><div class="kicker">Prototype checkout</div><h3>Estimated subtotal: ${money(total)}</h3><p class="muted">No payment was made. No real order was created.</p></div><p>Real checkout requires a supported payment provider, server-side order creation and verified payment webhooks.</p><button class="btn" id="backToCart">Back to cart</button>`);return
+ }
+ if(t.id==="backToCart"){showCart();return}
+ if(t.id==="goShop"){closeModal();return}
+});
+
+$("storeForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const store={name:$("storeName").value.trim(),seller:$("sellerName").value.trim(),country:$("sellerCountry").value,category:$("storeType").value};
+ $("storeResult").style.display="block";
+ $("storeResult").textContent="LOCAL STORE PREVIEW\n\nStore: "+store.name+"\nSeller: "+store.seller+"\nCountry: "+store.country+"\nCategory: "+store.category+"\nStatus: NOT VERIFIED\n\nThis profile exists only in this browser; it is not a real seller account.";
+ notify("Local store preview created.");
+});
+$("listingForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const name=$("listingName").value.trim(),price=Number($("listingPrice").value),cat=$("listingCategory").value,desc=$("listingDesc").value.trim();
+ if(!name||!Number.isFinite(price)||price<=0){notify("Enter a valid product name and price.");return}
+ const id=Date.now();
+ customListings.unshift({id,name,price,cat,desc,rating:0,tag:"Draft",brand:"Seller draft",img:""});
+ save();refresh();
+ $("listingResult").style.display="block";
+ $("listingResult").textContent="PRODUCT DRAFT SAVED LOCALLY\n\n"+name+"\nPrice: "+money(price)+"\nCategory: "+cat+"\n\nIt is visible only in this browser and has not been published online.";
+ $("listingForm").reset();notify("Local product draft saved.");
+});
+const savedCurrency=localStorage.getItem("orvix2_currency");
+if(savedCurrency&&symbols[savedCurrency])currency=savedCurrency;
+$("currency").value=currency;
+refresh();
+</script>
 </body>
 </html>
-
